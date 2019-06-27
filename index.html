@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./iconfont/iconfont.css">
+</head>
+<body>
+    <div class="container">
+        <div class="nav">
+            <span class="back iconfont icon-back"></span>
+            <span class="forward iconfont icon-right"></span>
+            <span class="reload iconfont icon-refresh"></span>
+            <input type="text" id="uri">
+            <span class="type" style="float: right;">mobile</span>
+        </div>
+        <div class="responsive">
+            <select name="responsive" id="select">
+                <option value='{"width":375,"height":667}'>responsive</option>
+                <option value='{"width":375,"height":667}'>iPhone6/7/8</option>
+                <option value='{"width":414,"height":736}'>iPhone6/7/8 Plus</option>
+            </select>
+            <div class="wh">
+                <input type="number" id="res-width">×<input type="number" id="res-height">
+            </div>
+            <div class="switch">
+                <label><input type="checkbox" id="scrolling" class="switch-btn switch-btn-animbg" onchange="hideScroll()">no scroll ? </span> </label>
+                <label><input type="checkbox" id="hidescrolling" class="switch-btn switch-btn-animbg" onchange="hideScrolling()">hide scrollbar</span></label>
+            </div>
+        </div>
+        <div class="brower">
+            <iframe name="brower" scrolling="auto" src="" frameborder="0"></iframe>
+            <div class="scrolling mobile" style="display: none;">
+                <div class="scrolling-shadow">
+                    <div class="scrolling-shade">
+                        <!-- css 本质就是障眼法 yangchaojie456@126.com -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+
+    .switch{
+        font-size: 14px;
+        line-height: 30px;
+        position: absolute;
+        right: 0;
+        user-select: none;
+    }
+    .switch span{
+        display: inline-block;
+    }
+    .switch input{
+        margin: 0;
+        transform: translateY(-5px);
+    }
+    .switch-btn{
+        cursor:pointer;
+        width: 45px;
+        height: 28px;
+        position: relative;
+        border: 1px solid #dfdfdf;
+        background-color: #fdfdfd;
+        box-shadow: #dfdfdf 0 0 0 0 inset;
+        border-radius: 15px;
+        background-clip: content-box;
+        display: inline-block;
+        -webkit-appearance: none;
+        user-select: none;
+        outline: none;
+    }
+    .switch-btn::before{
+        content: '';
+        width: 18px;
+        height: 18px;
+        position: absolute;
+        top: 0px;
+        left: 0;
+        border-radius: 20px;
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+    }
+    .switch-btn:checked{
+        border-color: #56b0d4;
+        box-shadow: #56b0d4 0 0 0 16px inset;
+        background-color: #56b056;
+    }
+    .switch-btn:checked:before{
+        left: 30px;
+    }
+    .switch-btn.switch-btn-animbg{
+        transition: background-color ease .4s;
+    }
+    .switch-btn.switch-btn-animbg:before{
+        transition: left .3s;
+    }
+    .switch-btn.switch-btn-animbg:checked{
+        box-shadow: #dfdfdf 0 0 0 0 inset;
+        background-color: #56b056;
+        transform: border-color .4s, background-color ease .4s;
+    }
+    .switch-btn.switch-btn-animbg:checked::before{
+        transition: left .3s;
+    }
+    
+    .responsive{
+        display: flex;
+        position: absolute;
+        top:36px;
+        left: 0;
+        height: 30px;
+        width: 100%;
+        align-items: center;
+        padding-left: 10px;
+        box-shadow: 0 3px 10px 1px #ccc;
+        z-index: 99999;
+    }
+    .responsive select{
+        border: none;
+        outline: none;
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+    }
+    .responsive input:hover{
+        border-color: #bbb;
+    }
+    .responsive input{
+        width: 50px;
+        height: 20px;
+        text-align: center;
+        outline: none;
+        border: 1px solid #eee;
+        vertical-align: bottom;
+    }
+    html,body{
+        padding: 0;
+        margin: 0;        
+        background: #fff;      
+        height: 100%;  
+        
+    }
+    div{
+        box-sizing: border-box;
+    }
+    .container{
+        position: relative;
+        padding-top: 75px;
+        padding-bottom: 20px;
+        display: flex;        
+        flex-direction: column;
+        overflow-x: hidden;
+        height: 100%;
+        
+    }
+    .container .nav{
+        height: 36px;
+        position: absolute;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        user-select: none;
+    }
+    .container .nav span{
+        height: 25px;
+        line-height: 25px;
+        display: inline-block;
+        padding: 0 5px;
+        color: #666;
+        font-size: 18px;
+        cursor: pointer;
+        font-weight: bold;        
+    }
+    .nav span:hover{
+        color:#333;
+    }
+    .nav input{
+        flex-grow: 1;
+        background: rgba(231, 231, 231, 0.767);
+        border:0;
+        border-radius: 15px;
+        height: 30px;
+        outline: none;
+        text-indent: 0.8em;
+        font-size: 18px;
+        color: #333;
+        min-width: 50px;
+    }
+    .nav .type{
+        width: 70px;
+        text-align: right;
+    }
+    .brower{
+        margin: 0 auto;
+        box-shadow: 0 0 10px 1px #ccc;
+        position: relative;
+    }
+    .brower iframe{
+        float: left;
+        box-sizing: border-box;
+    }
+    .scrolling{
+        width: 17px;
+        height: 100%;
+        position: absolute;
+        right: 0;
+        top: 0;
+        background: #fff;
+    }
+    .scrolling .scrolling-shadow{
+        border:0px solid transparent;
+        width: 30px;
+        height: 100%;
+        box-shadow: inset 0px 0px 10px 0px #ccc;
+        position: relative;
+    }
+    .scrolling .scrolling-shadow::before{
+        content: ' ';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        left: 10px;
+        top: -23px;
+        box-shadow: 0px 0px 5px 8px #fff;
+    }
+    .scrolling .scrolling-shadow::after{
+        content: ' ';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        left: 10px;
+        bottom: -23px;
+        box-shadow: 0px 0px 5px 8px #fff;
+    }
+    .scrolling .scrolling-shadow .scrolling-shade{
+        position: absolute;
+        width: 25px;
+        height: 100%;
+        background: #fff;
+        top: 0px;
+        left: 10px;
+    }
+</style>
+<script>
+    let _uri = document.querySelector("#uri"),
+    _iframe = document.querySelector("iframe"),
+    _select = document.querySelector("#select"),
+    _resWidth = document.querySelector("#res-width"),
+    _resHeight = document.querySelector("#res-height"),
+    _scrolling = document.querySelector("#scrolling"),
+    _hidescrolling = document.querySelector("#hidescrolling"),
+    _type = document.querySelector(".type"),
+    _mobile = document.querySelector(".mobile"),
+    _responsive = document.querySelector(".responsive"),
+    _brower = document.querySelector(".brower"),
+    _container = document.querySelector(".container"),
+    _nav = document.querySelector(".nav"),
+    _reload = document.querySelector(".reload"),
+    _back = document.querySelector(".back"),
+    _forward = document.querySelector(".forward");
+
+    // _uri.value = 'https://cn.vuejs.org/'
+
+    _iframe.style.width = 375+17+'px';
+    _iframe.style.height = 667+'px';
+
+    _uri.addEventListener('keydown',(e)=>{
+        
+        if(e.keyCode == 13&&_uri.value){
+            if(!_uri.value.includes('http')){
+                _uri.value = 'http://'+_uri.value
+            }
+            _iframe.setAttribute('src',_uri.value)
+        }
+    })
+
+    _reload.addEventListener('click',()=>{
+        if(!_uri.value.includes('http')){
+            _uri.value='http://'+_uri.value
+        }
+        _iframe.setAttribute('src',_uri.value)
+    })
+
+    _back.addEventListener('click',()=>{
+        window.history.back()
+    })
+    _forward.addEventListener('click',()=>{
+        window.history.forward()
+    })
+
+    _select.addEventListener('change',(e)=>{
+        var wh = JSON.parse(e.target.value)
+        _resWidth.value = wh.width
+        _resHeight.value = wh.height
+        _iframe.style.width = parseInt(_resWidth.value)+17+'px'
+        _iframe.style.height = _resHeight.value+'px'
+    })
+
+    _resWidth.addEventListener('input',(e)=>{
+        _iframe.style.width = parseInt(_resWidth.value)+17+'px'
+    })
+
+    _resHeight.addEventListener('input',(e)=>{
+        _iframe.style.height = _resHeight.value+'px'
+    })
+
+    _type.addEventListener('click',(e)=>{
+        if(e.target.innerHTML == 'mobile'){
+            e.target.innerHTML = 'pc'
+
+            _mobile.style.display = 'none'
+            _responsive.style.display = 'none'
+
+            _iframe.style.width = '100%'
+            _iframe.style.height = '100%'
+
+            _container.style.paddingTop = '36px'
+            _brower.style.boxShadow = 'none';
+            _nav.style.boxShadow = '0 0 3px 1px #aaa';
+            _brower.style.flexGrow = '1';
+
+            _container.appendChild(_iframe)
+        }else if(e.target.innerHTML == 'pc'){
+            e.target.innerHTML = 'mobile'
+
+            _mobile.style.display = 'block'
+            _responsive.style.display = 'flex'
+
+            _iframe.style.width = 375+17+'px'
+            _iframe.style.height = 667+'px'
+            _container.style.paddingTop = '75px'
+
+            _brower.style.boxShadow= '0 0 10px 1px #ccc';
+            _nav.style.boxShadow = 'none'
+            _brower.style.flexGrow = '0'
+
+            _brower.appendChild(_iframe)
+        }
+    })
+    function hideScroll(){
+        if(!_scrolling.checked){
+            _iframe.style.paddingRight=''
+        }else{
+            _iframe.style.paddingRight = '17px'
+        }
+        if(_scrolling.checked){
+            _hidescrolling.disabled=true
+            _hidescrolling.checked = true
+            _mobile.style.display = 'block'
+        }else{
+            _hidescrolling.disabled=false
+            _hidescrolling.checked = false
+            _mobile.style.display = 'none'
+        }
+    }
+    function hideScrolling(){
+        if(!_hidescrolling.checked){
+            _mobile.style.display = 'none'
+        }else{
+            _mobile.style.display = 'block'
+        }
+    }
+    _scrolling.checked = true
+    hideScroll()
+
+</script>
+</html>

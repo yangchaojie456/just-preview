@@ -1,0 +1,37 @@
+{
+	"name": "just-preview",
+	"displayName": "just-preview",
+	"description": "Add preview in vscode to avoid switching back and forth between browsers.",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.23.0"
+	},
+	"icon": "logo.png",
+	"publisher":"just-preview",
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:extension.JustPreview"
+	],
+	"main": "./extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.JustPreview",
+				"title": "Just Preview"
+			}
+		]
+	},
+	"scripts": {
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "node ./node_modules/vscode/bin/test"
+	},
+	"devDependencies": {
+		"typescript": "^3.3.1",
+		"vscode": "^1.1.28",
+		"eslint": "^5.13.0",
+		"@types/node": "^10.12.21",
+		"@types/mocha": "^2.2.42"
+	}
+}
